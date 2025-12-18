@@ -1,0 +1,8 @@
+{
+  "name": "LunaCare",
+  "short_name": "LunaCare",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF1F5",
+  "theme_color": "#EC4899"
+}
