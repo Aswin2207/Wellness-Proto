@@ -1,78 +1,61 @@
-import Card from "../components/Card";
-import BottomNav from "../components/BottomNav";
-import { theme } from "../theme";
+import PageWrapper from "../pageWrapper";
+import { card, sectionTitle, pill, colors } from "../theme";
 
-export default function Home({onTab}) {
+export default function Home() {
   return (
-    <div
-      style={{
-        background: theme.bg,
-        minHeight: "100vh",
-        padding: 16,
-        paddingBottom: 80,
-        maxWidth: 420,
-        margin: "0 auto"
-      }}
-    >
-      {/* Header */}
-      <div style={{ marginBottom: 16 }}>
-        <h2 style={{ margin: 0 }}>Hello, Emma 🌸</h2>
-        <p style={{ color: theme.muted, marginTop: 4 }}>
-          Cycle Day 12 · Follicular Phase
-        </p>
-      </div>
-
-      {/* Next Period */}
-      <Card
+    <PageWrapper active="Home">
+      {/* HERO */}
+      <div
         style={{
-          background:
-            "linear-gradient(135deg, #F58CA8, #FBD0DA)",
-          color: "#fff",
-          marginBottom: 16
+          ...card,
+          background: "linear-gradient(135deg,#E8A6C9,#F3C9DC)",
+          color: "#fff"
         }}
       >
-        <h3 style={{ margin: 0 }}>Next Period in</h3>
-        <h1 style={{ margin: "8px 0" }}>5 Days</h1>
-        <div
-          style={{
-            height: 6,
-            background: "rgba(255,255,255,0.4)",
-            borderRadius: 10
-          }}
-        >
-          <div
-            style={{
-              width: "60%",
-              height: "100%",
-              background: "#fff",
-              borderRadius: 10
-            }}
-          />
+        <h2>Follicular Phase</h2>
+        <p>Day 8 of 28 • Energy Rising</p>
+
+        <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+          <span style={pill}>🌱 Growth</span>
+          <span style={pill}>⚡ High Energy</span>
         </div>
-      </Card>
-
-      {/* Mood + Energy */}
-      <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
-        <Card style={{ flex: 1, textAlign: "center" }}>
-          <div style={{ fontSize: 32 }}>😊</div>
-          <p>Happy</p>
-        </Card>
-
-        <Card style={{ flex: 1, textAlign: "center" }}>
-          <div style={{ fontSize: 32 }}>⚡</div>
-          <p>Energy: Medium</p>
-        </Card>
       </div>
 
-      {/* Tip */}
-      <Card>
-        <h4>Today’s Tip 🌿</h4>
-        <p style={{ color: theme.muted }}>
-          Stay hydrated & do some light stretching.
-        </p>
-      </Card>
+      {/* TODAY */}
+      <div>
+        <h3 style={sectionTitle}>Today at a glance</h3>
 
-      <BottomNav active="Home" onChange={onTab} />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <Metric title="Mood" value="😊 Energized" />
+          <Metric title="Energy" value="85%" />
+          <Metric title="Sleep" value="7.4 hrs" />
+          <Metric title="Stress" value="Low" />
+        </div>
+      </div>
+
+      {/* UPCOMING */}
+      <div>
+        <h3 style={sectionTitle}>Upcoming</h3>
+        <Info text="Ovulation window • Jan 26–28" />
+        <Info text="Next period • Feb 8" />
+      </div>
+    </PageWrapper>
+  );
+}
+
+function Metric({ title, value }) {
+  return (
+    <div style={card}>
+      <p style={{ fontSize: 12, color: colors.muted }}>{title}</p>
+      <h3>{value}</h3>
+    </div>
+  );
+}
+
+function Info({ text }) {
+  return (
+    <div style={card}>
+      <p>{text}</p>
     </div>
   );
 }

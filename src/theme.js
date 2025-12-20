@@ -1,10 +1,72 @@
 export const theme = {
-  bg: "#FFF1F4",
+  /* backgrounds */
+  bg: "rgb(236, 231, 238)",
+  surface: "rgb(247, 244, 248)",
+
+  /* primary accents */
+  primary: "#E6C97A",     // moon gold
+  secondary: "#E7B8C8",   // blush
+  tertiary: "#D7C8DC",    // lavender
+
+  /* text */
+  text: "#3E3347",
+  muted: "#7A6A85",
+  subtle: "#9A8DA3",
+
+  /* UI */
+  border: "rgba(255,255,255,0.35)",
+  shadow: "0 12px 30px rgba(120,90,140,0.15)",
+  radius: 20
+};
+
+export const page = {
+  padding: 16,
+  paddingBottom: 80,
+  background: "#FFF5F8",
+  minHeight: "100vh"
+};
+
+export const hero = {
+  background: "linear-gradient(135deg,#E91E63,#F48FB1)",
+  color: "#fff",
+  borderRadius: 20,
+  padding: 20,
+  textAlign: "center"
+};
+
+export const heroPink = {
+  ...hero,
+  background: "linear-gradient(135deg,#F48FB1,#FCE4EC)"
+};
+export const colors = {
+  bg: "#FFF4F7",
   card: "#FFFFFF",
-  primary: "#F58CA8",
-  secondary: "#FBD0DA",
-  text: "#3A2E39",
-  muted: "#8F7A85",
-  radius: 18,
-  shadow: "0 8px 20px rgba(245,140,168,0.25)"
+  primary: "#E8A6C9",
+  primaryDark: "#D98BB3",
+  text: "#2E1F2F",
+  muted: "#7C6B78",
+  border: "#EADCE4"
+};
+
+export const card = {
+  background: colors.card,
+  borderRadius: 20,
+  padding: 16,
+  boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+  marginBottom: 16
+};
+
+export const sectionTitle = {
+  fontSize: 16,
+  fontWeight: 600,
+  marginBottom: 12,
+  color: colors.text
+};
+
+export const pill = {
+  padding: "6px 12px",
+  borderRadius: 999,
+  background: "#F6D6E5",
+  fontSize: 12,
+  fontWeight: 500
 };

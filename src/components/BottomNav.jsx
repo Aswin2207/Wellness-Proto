@@ -3,50 +3,73 @@ import { theme } from "../theme";
 const tabs = [
   { label: "Home", icon: "🏠" },
   { label: "Cycle", icon: "📅" },
-  { label: "Fertility", icon: "❤️" },
+  { label: "Fertility", icon: "🌙" },
   { label: "Insights", icon: "💬" },
   { label: "Profile", icon: "👤" }
 ];
 
-export default function BottomNav({ active = "Home", onChange }) {
+import { useNavigate, useLocation } from "react-router-dom";
+
+export default function BottomNav() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const tabs = [
+    { label: "Home", path: "/home", icon: "🏠" },
+    { label: "Fertility", path: "/fertility", icon: "🌸" },
+    { label: "AI", path: "/ai", icon: "🤖" },
+     { label: "Insights",path: "/insights", icon: "💬" },
+    { label: "Profile",path: "/profile", icon: "👤" }
+  ];
+
   return (
-    <div
-      style={{
-        position: "fixed",
-        bottom: 0,
-        width: "100%",
-        maxWidth: 420,
-        display: "flex",
-        justifyContent: "space-around",
-        padding: "10px 0 8px",
-        background: "#fff",
-        borderTop: "1px solid #eee",
-        zIndex: 10
-      }}
-    >
-      {tabs.map(tab => {
-        const isActive = active === tab.label;
+    <div style={nav}>
+      {tabs.map((tab) => {
+        const active = location.pathname === tab.path;
 
         return (
           <div
-            key={tab.label}
-            onClick={() => onChange?.(tab.label)}
+            key={tab.path}
+            onClick={() => navigate(tab.path)}
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              fontSize: 11,
-              color: isActive ? theme.primary : theme.muted,
-              cursor: "pointer"
+              ...item,
+              color: active ? "#E8A6C9" : "#7C6B78"
             }}
           >
-            <div style={{ fontSize: 20, lineHeight: "20px" }}>
+            <span style={{ fontSize: 22, lineHeight: "22px" }}>
               {tab.icon}
-            </div>
-            {tab.label}
+            </span>
+            <span style={{ fontSize: 11, marginTop: 4 }}>
+              {tab.label}
+            </span>
           </div>
         );
       })}
     </div>
   );
 }
+
+const nav = {
+  position: "fixed",
+  bottom: 0,
+  left: 0,
+  right: 0,
+  height: 64,
+  display: "flex",
+  justifyContent: "space-around",
+  alignItems: "center",
+  background: "rgba(255,255,255,0.95)",
+  backdropFilter: "blur(12px)",
+  borderTop: "1px solid #EADCE4",
+  zIndex: 100,
+  width: "100vw"
+};
+
+const item = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  cursor: "pointer",
+  minWidth: 64,
+  userSelect: "none"
+};

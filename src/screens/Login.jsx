@@ -17,7 +17,13 @@ export default function Login({ onLogin }) {
         {/* Logo / Title */}
         <div style={{ textAlign: "center", marginBottom: 24 }}>
           <div style={{ fontSize: 40 }}>🌸</div>
-          <h2 style={{ margin: "8px 0 4px" }}>LunaCare</h2>
+        <h2 style={{
+  color: theme.text,
+  fontWeight: 600,
+  letterSpacing: "-0.3px"
+}}>
+  Hello, Emma
+</h2>
           <p style={{ color: theme.muted, fontSize: 14 }}>
             Your personal cycle companion
           </p>

@@ -1,24 +1,23 @@
 import PageWrapper from "../pageWrapper";
 
-
-export default function Profile() {
+export default function Insights() {
   return (
     <PageWrapper>
-      <h2>Profile</h2>
+      <h2>Insights</h2>
 
       <div style={card}>
-        <p>Anonymous Mode</p>
-        <strong>Enabled</strong>
+        <p>Energy Trend</p>
+        <strong>Increasing ↑</strong>
       </div>
 
       <div style={card}>
-        <p>Cycle Length</p>
-        <strong>28 days</strong>
+        <p>Mood Prediction</p>
+        <strong>Stable</strong>
       </div>
 
       <div style={card}>
-        <p>Notifications</p>
-        <strong>On</strong>
+        <p>Hormonal Phase</p>
+        <strong>Follicular</strong>
       </div>
     </PageWrapper>
   );
