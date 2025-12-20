@@ -11,10 +11,10 @@ import LastPeriodStep from "./screens/LastPeriod";
 import Home from "./screens/Home";
 import Fertility from "./screens/Fertility";
 import StartJourney from "./screens/StartJourney";
-import CycleLength from "./screens/Cyclelength";
 import AI from "./screens/AIChat";
 import Profile from "./screens/Profile";
 import Insights from "./screens/Insights";
+import CycleLength from "./screens/Cyclelength";
 
 export default function App() {
   // 🔹 onboarding control
