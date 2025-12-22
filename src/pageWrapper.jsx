@@ -13,5 +13,5 @@ const appContainer = {
   padding: 16,
   paddingBottom: 96, // space for bottom nav
   minHeight: "100vh",
-  background: "#FFF4F7"
+  background: "#eae2ef"
 };

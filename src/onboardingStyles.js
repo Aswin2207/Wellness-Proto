@@ -1,8 +1,8 @@
 export const colors = {
-  bg: "#ECE7EE",
+  bg: "#a995ae",
   card: "#F7F4F8",
-  primary: "#E8A6C9",
-  primarySoft: "#F3C9DC",
+  primary: "rgb(219, 188, 191)",
+  primarySoft: "rgb(219, 188, 191)",
   text: "#2B2B2B",
   sub: "#6B6B6B",
   border: "#E2DCE6"
@@ -45,7 +45,7 @@ export const cta = {
   width: "100%",
   padding: "14px",
   borderRadius: 14,
-  background: "#E8A6C9",
+  background: "rgba(221, 182, 184)",
   border: "none",
   color: "#ffffff",
   fontSize: 16,

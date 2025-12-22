@@ -1,6 +1,6 @@
 export const theme = {
   /* backgrounds */
-  bg: "rgb(236, 231, 238)",
+  bg: "rgba(178, 155, 175)",
   surface: "rgb(247, 244, 248)",
 
   /* primary accents */
@@ -44,7 +44,7 @@ export const colors = {
   primary: "#E8A6C9",
   primaryDark: "#D98BB3",
   text: "#2E1F2F",
-  muted: "#7C6B78",
+  muted: "black",
   border: "#EADCE4"
 };
 

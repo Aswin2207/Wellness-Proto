@@ -1,22 +1,26 @@
-import { container, card, title, subtitle, input,cta } from "../onboardingStyles";
+import { useState } from "react";
+import { container, card, title, subtitle, input, cta } from "../onboardingStyles";
 import { Progress } from "../progress";
 
 
 export default function LastPeriodStep({ onNext }) {
-  return (
-    <div style={container}>
-      <div style={card}>
-        <h2 style={title}>When was your last period?</h2>
-        <p style={subtitle}>This helps calculate your cycle</p>
+    const today = new Date().toISOString().split("T")[0];
 
-        <Progress step={3} total={5} />
+    const [date, setDate] = useState(today);
+    return (
+        <div style={container}>
+            <div style={card}>
+                <h2 style={title}>When was your last period?</h2>
+                <p style={subtitle}>This helps calculate your cycle</p>
 
-        <input type="date" style={input} />
+                <Progress step={3} total={5} />
 
-        <button style={cta} onClick={onNext}>
-          Next →
-        </button>
-      </div>
-    </div>
-  );
+                <input type="date" style={input} value={date} onChange={(e) => setDate(e.target.value)} />
+
+                <button style={cta} onClick={onNext}>
+                    Next →
+                </button>
+            </div>
+        </div>
+    );
 }

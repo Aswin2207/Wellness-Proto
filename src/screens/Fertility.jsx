@@ -1,64 +1,89 @@
-
 import PageWrapper from "../pageWrapper";
 import { card, sectionTitle, colors } from "../theme";
 
 export default function Fertility() {
-  return (
-    <PageWrapper active="Fertility">
-      <div
-        style={{
-          ...card,
-          background: "linear-gradient(135deg,#F3C9DC,#FCE4EC)"
-        }}
-      >
-        <h2>Fertility Status</h2>
-        <p>Approaching fertile window</p>
-        <strong>Ovulation in ~10 days</strong>
-      </div>
+    return (
+        <PageWrapper active="Fertility">
+            {/* ================= DIGITAL TWIN ================= */}
+            <div style={{ ...card, textAlign: "center", backgroundColor: "rgb(192, 172, 197)", color: "#fff" }}>
+                <h3 style={{ color: "white", marginBottom: 8 }}>
+                    🧬 Your Digital Twin
+                </h3>
 
-      <h3 style={sectionTitle}>Fertile Window</h3>
-      <Progress percent={60} label="Jan 26–28" />
+                {/* Avatar */}
+                <div style={avatar}>🧬</div>
 
-      <h3 style={sectionTitle}>Body signals</h3>
-      <Insight text="Estrogen levels rising" />
-      <Insight text="Cervical mucus changes expected" />
+                {/* Status */}
+                <span style={statusPill}>✓ Synced & Active</span>
 
-      <h3 style={sectionTitle}>Recommendations</h3>
-      <Insight text="Light cardio & yoga" />
-      <Insight text="Increase hydration" />
-    </PageWrapper>
-  );
+                <p style={{ fontSize: 13, color: 'white', marginTop: 8 }}>
+                    AI model processing your unique hormonal patterns
+                </p>
+            </div>
+
+            {/* ================= INSIGHTS ================= */}
+            <h3 style={sectionTitle}>AI Insights</h3>
+
+            <InsightRow label="Next Period" value="Feb 8 (20 days)" />
+            <InsightRow label="Ovulation Window" value="Jan 26–28" />
+            <InsightRow label="Cycle Regularity" value="92% • Consistent" />
+            <InsightRow label="Predicted Mood" value="Stable" />
+            <InsightRow label="PMS Alert" value="Feb 5–7" />
+            <InsightRow label="Confidence Score" value="95%" />
+        </PageWrapper>
+    );
 }
 
-function Progress({ percent, label }) {
-  return (
-    <div style={card}>
-      <p>{label}</p>
-      <div
-        style={{
-          height: 8,
-          background: colors.border,
-          borderRadius: 8,
-          marginTop: 8
-        }}
-      >
+/* ================= COMPONENTS ================= */
+
+function InsightRow({ label, value }) {
+    return (
         <div
-          style={{
-            width: `${percent}%`,
-            height: "100%",
-            background: colors.primary,
-            borderRadius: 8
-          }}
-        />
-      </div>
-    </div>
-  );
+            style={{
+                ...card,
+                padding: 12,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+            }}
+        >
+            <span style={{ fontSize: 13 }}>{label}</span>
+            <span style={valuePill}>{value}</span>
+        </div>
+    );
 }
 
-function Insight({ text }) {
-  return (
-    <div style={card}>
-      <p>{text}</p>
-    </div>
-  );
-}
+/* ================= STYLES ================= */
+
+const avatar = {
+    width: 72,
+    height: 72,
+    borderRadius: "50%",
+    background: "linear-gradient(135deg,#E91E63,#C2185B)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 28,
+    color: "#fff",
+    margin: "12px auto"
+};
+
+const statusPill = {
+    display: "inline-block",
+    color: "#fff",
+    background: "#debabc",
+    padding: "4px 10px",
+    borderRadius: 12,
+    fontSize: 12,
+    fontWeight: 600
+};
+
+const valuePill = {
+    fontSize: 12,
+    fontWeight: 600,
+    color: "#fff",
+    background: "#debabc",
+    padding: "4px 10px",
+    borderRadius: 12,
+    textAlign: "right"
+};

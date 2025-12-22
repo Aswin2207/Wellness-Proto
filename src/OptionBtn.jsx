@@ -5,8 +5,8 @@ export default function OptionBtn({ label, selected, onClick }) {
       style={{
         padding: "16px 12px",
         borderRadius: 16,
-        border: selected ? "2px solid #E8A6C9" : "1px solid #E2DCE6",
-        background: selected ? "#F9E3EF" : "#FFFFFF",
+        border: selected ? "2px solid #ddb4ba" : "1px solid #E2DCE6",
+        background: selected ? "#ddb4ba" : "#FFFFFF",
         color: "#3A2D40",
         fontSize: 15,
         fontWeight: 500,

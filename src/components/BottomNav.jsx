@@ -16,9 +16,9 @@ export default function BottomNav() {
 
   const tabs = [
     { label: "Home", path: "/home", icon: "🏠" },
-    { label: "Fertility", path: "/fertility", icon: "🌸" },
-    { label: "AI", path: "/ai", icon: "🤖" },
-     { label: "Insights",path: "/insights", icon: "💬" },
+    { label: "Hormone Pattern", path: "/fertility", icon: "🌸" },
+    { label: "AI Insights", path: "/ai", icon: "🤖" },
+     { label: "Diet Chart",path: "/insights", icon: "🍣" },
     { label: "Profile",path: "/profile", icon: "👤" }
   ];
 

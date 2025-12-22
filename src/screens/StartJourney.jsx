@@ -6,7 +6,7 @@ export default function StartJourney({ onNext }) {
     <div style={container}>
       <Card style={{ textAlign: "center" }}>
         <div style={{ fontSize: 42 }}>🌙</div>
-        <h2 style={{ margin: "12px 0" }}>Welcome to LunaCare</h2>
+        <h2 style={{ margin: "12px 0" }}>Her Solace</h2>
         <p style={sub}>
           Let’s understand your cycle and personalize your experience.
         </p>
@@ -39,7 +39,7 @@ const primaryBtn = {
   padding: 14,
   borderRadius: 18,
   border: "none",
-  background: "rgb(232, 166, 201)",
+  background: "rgba(219, 188, 191)",
   fontWeight: 600,
   cursor: "pointer"
 };
