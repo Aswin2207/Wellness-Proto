@@ -14,7 +14,7 @@ import StartJourney from "./screens/StartJourney";
 import AI from "./screens/AIChat";
 import Profile from "./screens/Profile";
 import Insights from "./screens/Insights";
-import CycleLength from "./screens/Cyclelength";
+import CycleLength from "./screens/CycleLength";
 
 export default function App() {
   // 🔹 onboarding control
