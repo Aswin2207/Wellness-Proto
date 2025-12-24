@@ -18,7 +18,7 @@ export default function StartJourney() {
     dob: today,
     age: 25,
     cycleLength: 28,
-    lastPeriod: ""
+    lastPeriod: today
   });
 
   const totalSteps = 6; // landing + 5 steps
@@ -53,9 +53,9 @@ export default function StartJourney() {
             </div>
 
             <h1 style={landingTitle}>Her Solace</h1>
-<Sub>
-  A gentle space to understand your cycle & wellbeing
-</Sub>
+            <Sub>
+              A gentle space to understand your cycle & wellbeing
+            </Sub>
 
 
             <button style={finishBtn} onClick={next}>
