@@ -53,7 +53,6 @@ export default function StartJourney() {
             </div>
 
             <h1 style={landingTitle}>Her Solace</h1>
-          <h1 style={landingTitle}>Her Solace</h1>
 <Sub>
   A gentle space to understand your cycle & wellbeing
 </Sub>
