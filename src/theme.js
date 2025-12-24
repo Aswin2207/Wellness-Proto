@@ -70,3 +70,41 @@ export const pill = {
   fontSize: 12,
   fontWeight: 500
 };
+
+export const palette = {
+  bg: "linear-gradient(135deg,#9AD9FF,#F7B7D8)",
+  card: "rgba(255,255,255,0.85)",
+  primary: "#4FB6F5",
+  secondary: "#F48FB1",
+  text: "#333",
+  muted: "#777"
+};
+
+export const mobileCard = {
+  background: "#FFFFFF",
+  borderRadius: 24,
+  padding: 16,
+  boxShadow: "0 12px 30px rgba(0,0,0,0.06)",
+  marginBottom: 16
+};
+export const iconBadge = {
+  width: 40,
+  height: 40,
+  borderRadius: 12,
+  background: "#F3E8FF",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: 20
+};
+export const primaryBtn = {
+  width: "100%",
+  padding: "14px 16px",
+  borderRadius: 16,
+  border: "none",
+  background: "linear-gradient(135deg,#FF5FA2,#FF86B6)",
+  color: "#fff",
+  fontSize: 15,
+  fontWeight: 600
+};
+

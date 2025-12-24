@@ -1,6 +1,8 @@
 /* Remove default browser spacing */
 * {
   box-sizing: border-box;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
 }
 
 html,
@@ -12,3 +14,6 @@ body,
   height: 100%;
   background: rgba(178, 155, 175); /* your app background */
 }
+
+
+
