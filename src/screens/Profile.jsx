@@ -6,16 +6,16 @@ export default function Profile() {
 
   return (
     <PageWrapper active="Profile">
-      {/* ================= HEADER CARD ================= */}
+      {/* ================= HEADER ================= */}
       <div style={headerCard}>
         <div style={logo}>🌙</div>
-        <h2 style={{ margin: 8 }}>Her Solace</h2>
-        <p style={{ fontSize: 12, opacity: 0.8 }}>
+        <h2 style={{ marginTop: 8 }}>Her Solace</h2>
+        <p style={{ fontSize: 12, opacity: 0.85 }}>
           Hormonal Intelligence for Every Stage
         </p>
       </div>
 
-      {/* ================= MOTHER PROFILE ================= */}
+      {/* ================= PROFILES ================= */}
       <ProfileCard
         title="Sarah"
         subtitle="Self"
@@ -29,10 +29,9 @@ export default function Profile() {
         }}
       />
 
-      {/* ================= DAUGHTER PROFILE ================= */}
       <ProfileCard
-        title="Daughter"
-        subtitle="Lily (Age 13)"
+        title="Lily"
+        subtitle="Daughter • Age 13"
         active={open === "daughter"}
         onClick={() => setOpen(open === "daughter" ? null : "daughter")}
         details={{
@@ -44,10 +43,11 @@ export default function Profile() {
       />
 
       {/* ================= SETTINGS ================= */}
-      <div style={card}>
-        <Setting label="Anonymous Mode" value="Enabled" />
-        <Setting label="Notifications" value="On" />
-        <Setting label="Privacy Mode" value="Enabled" />
+      <div style={settingsCard}>
+        <h4 style={{ marginBottom: 12 }}>Settings</h4>
+        <Toggle label="Anonymous Mode" />
+        <Toggle label="Notifications" defaultOn />
+        <Toggle label="Privacy Mode" />
       </div>
     </PageWrapper>
   );
@@ -57,16 +57,27 @@ export default function Profile() {
 
 function ProfileCard({ title, subtitle, active, onClick, details }) {
   return (
-    <div style={{ ...card, border: active ? "2px solid #E8A6C9" : "none",backgroundColor:"#e1b8be" }}>
+    <div
+      style={{
+        ...card,
+        background: "#e1b8be",
+        color: "#fff",
+        boxShadow: active
+          ? "0 18px 40px rgba(0,0,0,0.18)"
+          : "0 8px 20px rgba(0,0,0,0.1)",
+        transform: active ? "scale(1.01)" : "scale(1)",
+        transition: "all .25s ease"
+      }}
+    >
       <div style={profileRow} onClick={onClick}>
         <div style={avatar}>{title[0]}</div>
 
         <div>
           <strong>{title}</strong>
-          <p style={{ fontSize: 12, color: "#fff" }}>{subtitle}</p>
+          <p style={{ fontSize: 12, opacity: 0.9 }}>{subtitle}</p>
         </div>
 
-        <span style={{ marginLeft: "auto" }}>
+        <span style={{ marginLeft: "auto", fontSize: 14 }}>
           {active ? "▲" : "▼"}
         </span>
       </div>
@@ -91,11 +102,26 @@ function Detail({ label, value }) {
   );
 }
 
-function Setting({ label, value }) {
+function Toggle({ label, defaultOn = false }) {
+  const [on, setOn] = useState(defaultOn);
+
   return (
-    <div style={detailRow}>
+    <div style={toggleRow} onClick={() => setOn(!on)}>
       <span>{label}</span>
-      <strong>{value}</strong>
+
+      <div
+        style={{
+          ...toggleTrack,
+          background: on ? "#C2185B" : "#DDD"
+        }}
+      >
+        <div
+          style={{
+            ...toggleThumb,
+            transform: on ? "translateX(18px)" : "translateX(0)"
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -106,15 +132,14 @@ const card = {
   background: "#fff",
   borderRadius: 20,
   padding: 16,
-  marginBottom: 16,
-  boxShadow: "0 10px 30px rgba(0,0,0,0.08)"
+  marginBottom: 16
 };
 
 const headerCard = {
   ...card,
   textAlign: "center",
-  background: "#c4aec3",
-  color:"#fff"
+  background: "rgb(225, 184, 190)",
+  color: "#fff"
 };
 
 const logo = {
@@ -125,7 +150,6 @@ const logo = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  color: "#fff",
   fontSize: 24,
   margin: "0 auto"
 };
@@ -134,8 +158,7 @@ const profileRow = {
   display: "flex",
   alignItems: "center",
   gap: 12,
-  cursor: "pointer",
-  color:'#fff'
+  cursor: "pointer"
 };
 
 const avatar = {
@@ -153,8 +176,8 @@ const avatar = {
 const detailsBox = {
   marginTop: 12,
   paddingTop: 12,
-  borderTop: "1px solid #EEE",
-  color:'#fff'
+  borderTop: "1px solid rgba(255,255,255,0.3)",
+  animation: "fadeSlide .25s ease"
 };
 
 const detailRow = {
@@ -162,3 +185,47 @@ const detailRow = {
   justifyContent: "space-between",
   marginTop: 8
 };
+
+const settingsCard = {
+  ...card,
+  background: "#f4f3f9"
+};
+
+/* ================= TOGGLES ================= */
+
+const toggleRow = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "12px 0",
+  cursor: "pointer"
+};
+
+const toggleTrack = {
+  width: 36,
+  height: 18,
+  borderRadius: 999,
+  position: "relative",
+  transition: "background .2s ease"
+};
+
+const toggleThumb = {
+  width: 14,
+  height: 14,
+  borderRadius: "50%",
+  background: "#fff",
+  position: "absolute",
+  top: 2,
+  left: 2,
+  transition: "transform .2s ease"
+};
+
+/* ================= ANIMATION ================= */
+
+const style = document.createElement("style");
+style.innerHTML = `
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}`;
+document.head.appendChild(style);

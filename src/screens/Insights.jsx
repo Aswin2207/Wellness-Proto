@@ -1,252 +1,267 @@
 import { useEffect, useState } from "react";
 import PageWrapper from "../pageWrapper";
 
-const mealsList = ["Breakfast", "Lunch", "Dinner"];
+/* ================= MOCK CYCLE PHASE ================= */
+const cyclePhase = "Follicular";
+
+/* ================= MEAL SUGGESTIONS ================= */
+const MEALS = {
+  Breakfast: {
+    icon: "🌿",
+    suggestion: "Oatmeal with berries & nuts",
+    macros: "Carbs: 30g • Protein: 15g • Fat: 10g"
+  },
+  Lunch: {
+    icon: "🥗",
+    suggestion: "Baked salmon & veggies",
+    macros: "Carbs: 25g • Protein: 30g • Fat: 15g"
+  },
+  Dinner: {
+    icon: "🍗",
+    suggestion: "Grilled chicken & greens",
+    macros: "Carbs: 20g • Protein: 35g • Fat: 12g"
+  }
+};
 
 export default function Insights() {
-  const [meals, setMeals] = useState(() => {
-    return (
-      JSON.parse(localStorage.getItem("nutritionToday")) || {
-        Breakfast: { calories: 0, protein: 0, carbs: 0, fat: 0 },
-        Lunch: { calories: 0, protein: 0, carbs: 0, fat: 0 },
-        Dinner: { calories: 0, protein: 0, carbs: 0, fat: 0 }
-      }
-    );
+  const [inputs, setInputs] = useState({
+    Breakfast: "",
+    Lunch: "",
+    Dinner: ""
   });
 
-  /* ---------- CALCULATIONS ---------- */
-  const totals = mealsList.reduce(
-    (acc, meal) => {
-      acc.calories += meals[meal].calories;
-      acc.protein += meals[meal].protein;
-      acc.carbs += meals[meal].carbs;
-      acc.fat += meals[meal].fat;
-      return acc;
-    },
-    { calories: 0, protein: 0, carbs: 0, fat: 0 }
-  );
+  const [hydration, setHydration] = useState(5);
+  const [score, setScore] = useState(0);
 
-  const score = Math.min(
-    100,
-    totals.protein * 2 + totals.carbs + totals.fat
-  );
-
-  /* ---------- SAVE DAILY HISTORY ---------- */
+  /* ================= SCORE CALC ================= */
   useEffect(() => {
-    localStorage.setItem("nutritionToday", JSON.stringify(meals));
-
-    const history =
-      JSON.parse(localStorage.getItem("nutritionHistory")) || [];
-
-    const today = new Date().toDateString();
-    const updated = history.filter((h) => h.date !== today);
-
-    updated.push({ date: today, score });
-
-    localStorage.setItem(
-      "nutritionHistory",
-      JSON.stringify(updated.slice(-7))
-    );
-  }, [meals, score]);
+    let base = 40;
+    Object.values(inputs).forEach((v) => {
+      if (v.length > 3) base += 15;
+    });
+    base += hydration * 2;
+    setScore(Math.min(100, base));
+  }, [inputs, hydration]);
 
   return (
     <PageWrapper active="Insights">
-      <h2>🍽️ Nutrition Dashboard</h2>
-      <p style={muted}>Personalized for your cycle phase</p>
-
-      {/* ================= MACRO RINGS ================= */}
-      <div style={ringRow}>
-        <Ring label="Protein" value={totals.protein} color="#E91E63" />
-        <Ring label="Carbs" value={totals.carbs} color="#7B1FA2" />
-        <Ring label="Fat" value={totals.fat} color="#F57C00" />
+      {/* ================= HEADER ================= */}
+      <div style={header}>
+        <div>
+          <h3>Today’s Plan</h3>
+          <p style={muted}>Cycle Phase: {cyclePhase}</p>
+        </div>
+        <span style={date}>Aug 14, 2024</span>
       </div>
 
       {/* ================= SCORE ================= */}
-      <div style={{...card, backgroundColor: "rgb(192, 172, 197)", color: "#fff" }}>
-        <p>Nutrition Score</p>
-        <div style={scoreBar}>
-          <div style={{ ...scoreFill, width: `${score}%` }} />
+      <div style={scoreCard}>
+        <p>XI Diet Score</p>
+        <strong>{score}% Achieved</strong>
+        <div style={bar}>
+          <div style={{ ...barFill, width: `${score}%` }} />
         </div>
-        <strong>{score}%</strong>
       </div>
 
       {/* ================= MEALS ================= */}
-      {mealsList.map((meal) => (
-        <MealEditor
-          key={meal}
-          meal={meal}
-          data={meals[meal]}
-          onChange={(data) =>
-            setMeals({ ...meals, [meal]: data })
-          }
-        />
-      ))}
+      <h4 style={section}>What did you eat today?</h4>
 
-      {/* ================= WEEKLY HISTORY ================= */}
-      <div style={card}>
-        <h4>Weekly Nutrition Trend</h4>
-        <WeeklyChart />
-      </div>
-    </PageWrapper>
-  );
-}
+      {Object.entries(MEALS).map(([meal, data]) => (
+        <div key={meal} style={mealCard}>
+          <div style={mealHeader}>
+            <span style={mealIcon}>{data.icon}</span>
+            <strong>{meal}</strong>
+          </div>
 
-/* ================= COMPONENTS ================= */
+          <p style={suggestion}>{data.suggestion}</p>
+          <p style={macros}>{data.macros}</p>
 
-function MealEditor({ meal, data, onChange }) {
-  return (
-    <div style={card}>
-      <h4>{meal}</h4>
-      <p style={aiText}>
-        AI Suggestion: Focus on protein + iron rich foods
-      </p>
-
-      {["calories", "protein", "carbs", "fat"].map((key) => (
-        <InputRow
-          key={key}
-          label={key}
-          value={data[key]}
-          onChange={(v) =>
-            onChange({ ...data, [key]: Number(v) })
-          }
-        />
-      ))}
-    </div>
-  );
-}
-
-function InputRow({ label, value, onChange }) {
-  return (
-    <div style={row}>
-      <span>{label}</span>
-      <input
-        type="number"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        style={input}
-      />
-    </div>
-  );
-}
-
-function Ring({ label, value, color }) {
-  return (
-    <div style={{ textAlign: "center" }}>
-      <div
-        style={{
-          ...ring,
-          background: `conic-gradient(${color} ${value *
-            3.6}deg,#EEE 0deg)`
-        }}
-      >
-        <span>{value}g</span>
-      </div>
-      <p style={{ fontSize: 12 }}>{label}</p>
-    </div>
-  );
-}
-
-function WeeklyChart() {
-  const data =
-    JSON.parse(localStorage.getItem("nutritionHistory")) || [];
-
-  return (
-    <div style={chart}>
-      {data.map((d, i) => (
-        <div key={i} style={barWrap}>
-          <div
-            style={{
-              ...bar,
-              height: `${d.score}%`
-            }}
+          <input
+            placeholder={`e.g. ${data.suggestion}`}
+            value={inputs[meal]}
+            onChange={(e) =>
+              setInputs({ ...inputs, [meal]: e.target.value })
+            }
+            style={input}
           />
-          <span style={day}>{d.date.slice(0, 3)}</span>
         </div>
       ))}
-    </div>
+
+      {/* ================= HYDRATION ================= */}
+      <div style={hydrationCard}>
+        <div style={{ display: "flex", gap: 10 }}>
+          <span style={{ fontSize: 22 }}>💧</span>
+          <div>
+            <strong>Hydration Tips</strong>
+            <p style={muted}>
+              Drink 8 glasses daily. Carry a reusable bottle.
+            </p>
+          </div>
+        </div>
+
+        <div style={waterRow}>
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              onClick={() => setHydration(i + 1)}
+              style={{
+                ...water,
+                background: i < hydration ? "rgb(194, 24, 91)" : "rgb(244, 243, 249)"
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ================= MONTHLY ================= */}
+      <div style={monthly}>
+        <h4>Monthly Nutrition Overview</h4>
+        <div style={monthRow}>
+          {["W1", "W2", "W3", "W4"].map((w, i) => (
+            <div key={w} style={week}>
+              <div
+                style={{
+                  ...weekBar,
+                  height: `${60 + i * 10}%`
+                }}
+              />
+              <span style={{ fontSize: 11 }}>{w}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ================= CTA ================= */}
+      <button style={cta}>Submit & Get Score</button>
+    </PageWrapper>
   );
 }
 
 /* ================= STYLES ================= */
 
-const card = {
-backgroundColor: "rgb(192, 172, 197)", color: "#fff" ,
-  borderRadius: 20,
-  padding: 16,
-  marginBottom: 16,
-  boxShadow: "0 10px 30px rgba(0,0,0,0.08)"
-};
-
-const muted = { color: "#888", marginBottom: 12 };
-
-const aiText = {
-  fontSize: 12,
-  color: "#E91E63",
-  marginBottom: 8
-};
-
-const row = {
+const header = {
   display: "flex",
   justifyContent: "space-between",
+  alignItems: "center"
+};
+
+const date = { fontSize: 12, opacity: 0.7 };
+const muted = { fontSize: 12, opacity: 0.7 };
+
+const scoreCard = {
+  background: "rgb(225, 184, 190)",
+  borderRadius: 22,
+  padding: 16,
+  marginTop: 12,
+  boxShadow: "0 10px 30px rgba(0,0,0,0.06)"
+};
+
+const bar = {
+  height: 10,
+  background: "rgb(244, 243, 249)",
+  borderRadius: 10,
+  marginTop: 8,
+  overflow: "hidden"
+};
+
+const barFill = {
+  height: "100%",
+  background: "rgb(194, 24, 91)",
+  transition: "width .6s ease"
+};
+
+const section = { marginTop: 20 };
+
+const mealCard = {
+  background: "rgb(225, 184, 190)",
+  borderRadius: 22,
+  padding: 16,
+  marginTop: 12,
+  boxShadow: "0 10px 30px rgba(0,0,0,0.05)"
+};
+
+const mealHeader = {
+  display: "flex",
   alignItems: "center",
-  marginTop: 8
+  gap: 10
+};
+
+const mealIcon = {
+  fontSize: 22,
+  animation: "pulse 2s infinite"
+};
+
+const suggestion = {
+  fontSize: 13,
+  marginTop: 6
+};
+
+const macros = {
+  fontSize: 11,
+  opacity: 0.7
 };
 
 const input = {
-  width: 80,
-  padding: 6,
-  borderRadius: 8,
-  border: "1px solid #DDD"
+  width: "100%",
+  marginTop: 10,
+  padding: 12,
+  borderRadius: 14,
+  border: "1px solid #ddd",
+  background:"rgb(244, 243, 249)"
 };
 
-const ringRow = {
+const hydrationCard = {
+  background: "rgb(225, 184, 190)",
+  borderRadius: 22,
+  padding: 16,
+  marginTop: 16
+};
+
+const waterRow = {
   display: "flex",
-  justifyContent: "space-around",
-  marginBottom: 16
+  gap: 6,
+  marginTop: 10
 };
 
-const ring = {
-  width: 80,
-  height: 80,
-  borderRadius: "50%",
+const water = {
+  width: 22,
+  height: 36,
+  borderRadius: 6
+};
+
+const monthly = {
+  background: "rgb(225, 184, 190)",
+  borderRadius: 22,
+  padding: 16,
+  marginTop: 16
+};
+
+const monthRow = {
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontWeight: 700
+  gap: 12,
+  marginTop: 10,
+  alignItems: "flex-end"
 };
 
-const scoreBar = {
-  height: 10,
-  background: "#EEE",
-  borderRadius: 10,
-  marginTop: 8
-};
-
-const scoreFill = {
-  height: "100%",
-  borderRadius: 10,
-  background: "linear-gradient(135deg,#E91E63,#F48FB1)"
-};
-
-const chart = {
-  display: "flex",
-  alignItems: "flex-end",
-  gap: 8,
-  height: 100
-};
-
-const barWrap = {
+const week = {
   flex: 1,
   textAlign: "center"
 };
 
-const bar = {
+const weekBar = {
   width: "100%",
-  background: "#F48FB1",
-  borderRadius: 6
+  background: "rgb(194, 24, 91)",
+  borderRadius: 10,
+  transition: "height .5s ease"
 };
 
-const day = {
-  fontSize: 10,
-  marginTop: 4
+const cta = {
+  marginTop: 20,
+  width: "100%",
+  padding: 14,
+  borderRadius: 18,
+  background: "rgb(194, 24, 91)",
+  color: "#fff",
+  fontWeight: 700,
+  border: "none"
 };

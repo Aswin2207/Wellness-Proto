@@ -89,7 +89,7 @@ export default function StartJourney() {
             </div>
 
             <ArrowRow>
-              <span />
+                <Fab onClick={prev}>←</Fab>
               <Fab onClick={next}>→</Fab>
             </ArrowRow>
           </Card>

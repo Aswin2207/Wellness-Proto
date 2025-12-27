@@ -5,7 +5,7 @@ export default function Fertility() {
     return (
         <PageWrapper active="Fertility">
             {/* ================= DIGITAL TWIN ================= */}
-            <div style={{ ...card, textAlign: "center", backgroundColor: "rgb(192, 172, 197)", color: "#fff" }}>
+            <div style={{ ...card, textAlign: "center", backgroundColor: "rgb(225, 184, 190)", color: "#fff" }}>
                 <h3 style={{ color: "white", marginBottom: 8 }}>
                     🧬 Your Digital Twin
                 </h3>
@@ -42,6 +42,7 @@ function InsightRow({ label, value }) {
             style={{
                 ...card,
                 padding: 12,
+                background:"rgb(244, 243, 249)",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center"
