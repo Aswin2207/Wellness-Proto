@@ -165,7 +165,7 @@ export default function StartJourney() {
             <Title>Select Symptoms</Title>
             </div>
 
-            <div style={{...chips,gap:'10'}}>
+            <div style={{...chips,gap:'10px',justifyContent:'normal'}}>
               {["Cramps/Pain", "Headaches", "Bloating", "Brain Fog", "Fatigue", "Mood Swings",
                 "Anxiety/Tension"
               ].map((g) => (
@@ -178,7 +178,8 @@ export default function StartJourney() {
                     color: data.symptoms.includes(g) ? "#fff" : "#BE185D",
                     width: '95px',
                     fontSize: '10px',
-                    padding: '10px'
+                    padding: '10px',
+                    marginBottom:'10px'
                   }}
                   onClick={() => {
                     const isSelected = data.symptoms.includes(g);
