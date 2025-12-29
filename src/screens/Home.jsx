@@ -1,17 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import PageWrapper from "../pageWrapper";
 import { colors } from "../theme";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import { IoCalendarOutline } from "react-icons/io5";
+
+
 
 /* ================= HOME ================= */
 
 export default function Home() {
   const sliderRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [range, setRange] = useState();
 
   // cycle data (later can come from onboarding)
   const cycleLength = 28;
   const cycleDay = 8;
   const ovulationDay = 14;
-  const daysToOvulation = ovulationDay - cycleDay;
+  const [month, setMonth] = useState(new Date());
+
+  const [loggedDays, setLoggedDays] = useState(() =>
+    getFiveDaysForMonth(
+      new Date().getFullYear(),
+      new Date().getMonth()
+    )
+  );
+
 
   /* ---------- auto slider ---------- */
   useEffect(() => {
@@ -35,12 +50,15 @@ export default function Home() {
     <PageWrapper active="Home">
       {/* ================= HERO ================= */}
       <div style={heroCard}>
-        <div style={heroTop}>
-          <CycleRing day={cycleDay} total={cycleLength} />
-          <OvulationCountdown days={daysToOvulation} />
-        </div>
 
+        {/* Log Button */}
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
         <h2 style={heroTitle}>Follicular Phase</h2>
+        <button style={logButton} onClick={() => setOpen(true)}>
+          <IoCalendarOutline size={22} />
+          <span>Log</span>
+        </button>
+        </div>
         <p style={heroSub}>
           Day {cycleDay} of {cycleLength} • Energy rising • Focus & strength peak
         </p>
@@ -83,6 +101,55 @@ export default function Home() {
         <NextCard icon="💪" title="Best Workouts" subtitle="HIIT & Strength" />
         <NextCard icon="🥗" title="Nutrition Focus" subtitle="Protein & Iron" />
       </div>
+      {open && (
+        <div style={modalOverlay} onClick={() => setOpen(false)}>
+          <div style={modal} onClick={e => e.stopPropagation()}>
+            <h3>Log Cycle</h3>
+            <div className="cycle-calendar">
+              <DayPicker
+                mode="range"
+                month={month}
+                onMonthChange={(m) => {
+                  setMonth(m);
+
+                  const y = m.getFullYear();
+                  const mo = m.getMonth();
+
+                  setLoggedDays(prev => {
+                    const newDays = getFiveDaysForMonth(y, mo);
+
+                    const merged = [...prev, ...newDays];
+
+                    // remove duplicates
+                    return Array.from(
+                      new Set(merged.map(d => d.toDateString()))
+                    ).map(d => new Date(d));
+                  });
+                }}
+                selected={range}
+                onSelect={setRange}
+                modifiers={{ logged: loggedDays }}
+                modifiersStyles={{
+                  logged: {
+                    backgroundColor: "rgb(225, 184, 190)",
+                    color: "#000",
+                    borderRadius: "50%",
+                    color: 'white',
+                    fontWeight: 'bold',
+                    fontSize: 'large'
+                  }
+                }}
+              />
+
+
+              <div style={{ display: 'flex', justifyContent: 'end' }}>
+                <button style={{ ...logButton, backgroundColor: 'rgb(225, 184, 190)', color: 'white', fontSize: 'large', fontWeight: 'bold' }} onClick={() => setOpen(false)}>Done</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </PageWrapper>
   );
 }
@@ -97,6 +164,14 @@ function Metric({ label, value }) {
     </div>
   );
 }
+
+function getFiveDaysForMonth(year, month) {
+  return Array.from({ length: 5 }, (_, i) =>
+    new Date(year, month, i + 1)
+  );
+}
+
+
 
 function MiniMetric({ label, value }) {
   return (
@@ -319,6 +394,34 @@ const ovulationPulse = {
   fontWeight: 800,
   animation: "pulse 2s infinite"
 };
+
+const logButton = {
+  display: "flex",
+  alignItems: "center",
+  gap: "6px",
+  background: "none",
+  border: "1px solid #eee",
+  borderRadius: "20px",
+  padding: "6px 12px",
+  cursor: "pointer",
+  color:'white'
+};
+
+const modalOverlay = {
+  position: "fixed",
+  inset: 0,
+  background: "rgba(0,0,0,0.4)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center"
+};
+
+const modal = {
+  background: "#fff5f7",
+  padding: "16px",
+  borderRadius: "12px"
+};
+
 
 /* ================= ANIMATIONS ================= */
 

@@ -14,6 +14,65 @@ body,
   height: 100%;
   background: rgba(178, 155, 175); /* your app background */
 }
+/* ================= CALENDAR CONTAINER ================= */
+.cycle-calendar {
+  --rdp-background-color: #fff5f7;
+  background: #fff5f7;
+  padding: 12px;
+  border-radius: 16px;
+}
+
+/* ================= MONTH HEADER ================= */
+.cycle-calendar .rdp-caption_label {
+  font-weight: 700;
+  color: rgb(225, 184, 190);
+}
+
+/* ================= NAVIGATION ARROWS ================= */
+.cycle-calendar .rdp-button_next .rdp-chevron {
+  fill: rgb(225, 184, 190);              /* arrow color */
+}
+
+.cycle-calendar .rdp-button_previous .rdp-chevron {
+  fill: rgb(225, 184, 190);              /* arrow color */
+}
+
+.cycle-calendar .rdp-nav_button:hover {
+  background: rgba(143, 106, 168, 0.15);
+}
+
+/* ================= DAY CELL ================= */
+.cycle-calendar .rdp-day {
+  border-radius: 10px;
+}
+
+/* ================= RANGE START / END ================= */
+.cycle-calendar .rdp-range_start .rdp-day_button,
+.cycle-calendar .rdp-range_end .rdp-day_button,
+.cycle-calendar .rdp-range_middle .rdp-day_button {
+  background: rgb(225, 184, 190);
+  color: #fff;
+  border:none;
+  border-radius: 100%;
+}
+
+/* ================= RANGE MIDDLE ================= */
+.cycle-calendar .rdp-day_range_middle {
+  background: rgb(225, 184, 190);
+  color: #4b2e63;
+}
+
+/* ================= HOVER ================= */
+.cycle-calendar .rdp-day:hover {
+  background: rgba(143, 106, 168, 0.15);
+}
+
+/* ================= LOGGED DAYS ================= */
+.cycle-calendar .rdp-day_logged {
+  background: #fde2e4;
+  color: #000;
+  border-radius: 50%;
+}
 
 
 

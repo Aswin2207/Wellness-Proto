@@ -1,12 +1,10 @@
-import { theme } from "../theme";
-
-const tabs = [
-  { label: "Home", icon: "🏠" },
-  { label: "Cycle", icon: "📅" },
-  { label: "Fertility", icon: "🌙" },
-  { label: "Insights", icon: "💬" },
-  { label: "Profile", icon: "👤" }
-];
+import {
+  IoHomeOutline,
+  IoFlowerOutline,
+  IoSparklesOutline,
+  IoNutritionOutline,
+  IoPersonOutline
+} from "react-icons/io5";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -14,20 +12,23 @@ export default function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const tabs = [
-    { label: "Home", path: "/home", icon: "🏠" },
-    { label: "Hormone Pattern", path: "/fertility", icon: "🌸" },
-    { label: "AI Insights", path: "/ai", icon: "🤖" },
-     { label: "Diet Chart",path: "/insights", icon: "🍣" },
-    { label: "Profile",path: "/profile", icon: "👤" }
-  ];
+ const tabs = [
+  { label: "Home", path: "/home", icon: IoHomeOutline },
+  { label: "Hormone Pattern", path: "/fertility", icon: IoFlowerOutline },
+  { label: "AI Insights", path: "/ai", icon: IoSparklesOutline },
+  { label: "Diet Chart", path: "/insights", icon: IoNutritionOutline },
+  { label: "Profile", path: "/profile", icon: IoPersonOutline }
+];
+
 
   return (
     <div style={nav}>
       {tabs.map((tab) => {
         const active = location.pathname === tab.path;
+          const Icon = tab.icon;
 
         return (
+          
           <div
             key={tab.path}
             onClick={() => navigate(tab.path)}
@@ -36,8 +37,9 @@ export default function BottomNav() {
               color: active ? "#E8A6C9" : "#7C6B78"
             }}
           >
+            
             <span style={{ fontSize: 22, lineHeight: "22px" }}>
-              {tab.icon}
+              <Icon size={22} />
             </span>
             <span style={{ fontSize: 11, marginTop: 4 }}>
               {tab.label}

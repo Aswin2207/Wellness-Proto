@@ -90,10 +90,19 @@ export default function AI() {
   return (
     <PageWrapper active="AI">
       {/* ================= HEADER ================= */}
-      <div style={header}>
-        <h2>🧠 AI Insights</h2>
-        <p style={{ fontSize: 13, opacity: 0.9 }}>
-          Personalized recommendations based on your cycle
+      <div style={{ ...card, textAlign: "center", backgroundColor: "rgb(225, 184, 190)", color: "#fff" }}>
+        <h3 style={{ color: "white", marginBottom: 8 }}>
+          🧬 Your Digital Twin
+        </h3>
+
+        {/* Avatar */}
+        <div style={avatar}>🧬</div>
+
+        {/* Status */}
+        <span style={statusPill}>✓ Synced & Active</span>
+
+        <p style={{ fontSize: 13, color: 'white', marginTop: 8 }}>
+          AI model processing your unique hormonal patterns
         </p>
       </div>
 
@@ -321,4 +330,26 @@ const sendBtn = {
   border: "none",
   color: "#fff",
   fontWeight: 600
+};
+const avatar = {
+    width: 72,
+    height: 72,
+    borderRadius: "50%",
+    background: "linear-gradient(135deg,#E91E63,#C2185B)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 28,
+    color: "#fff",
+    margin: "12px auto"
+};
+
+const statusPill = {
+    display: "inline-block",
+    color: "#fff",
+    background: "#debabc",
+    padding: "4px 10px",
+    borderRadius: 12,
+    fontSize: 12,
+    fontWeight: 600
 };
