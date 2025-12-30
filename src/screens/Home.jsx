@@ -166,10 +166,13 @@ function Metric({ label, value }) {
 }
 
 function getFiveDaysForMonth(year, month) {
+  const startDay = 8;
+
   return Array.from({ length: 5 }, (_, i) =>
-    new Date(year, month, i + 1)
+    new Date(year, month, startDay + i)
   );
 }
+
 
 
 

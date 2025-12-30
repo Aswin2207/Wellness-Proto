@@ -77,36 +77,31 @@ const valuePill = {
     textAlign: "right"
 };
 
-function CycleTrendChart({
-  cycleLength = 28
-}) {
+function CycleTrendChart({ cycleLength = 28 }) {
   const width = 300;
   const height = 120;
 
-  // Phase centers aligned with X labels
   const phases = {
-    bleed: 4,     // center of BLEED
-    seed: 9,
-    bloom: 14,    // center of BLOOM
-    shift: 20,
-    reflect: 25
+    seed: 6,
+    bloom: 14,
+    moon: 20,
+    flow: 26
   };
 
   const x = d => (d / cycleLength) * width;
   const y = d => height - (d / cycleLength) * height;
 
-  // One smooth curve with peaks centered on BLEED & BLOOM
   const areaPath = `
     M ${x(1)} ${y(2)}
-    C ${x(phases.bleed - 2)} ${y(3)},
-      ${x(phases.bleed)} ${y(8)},
-      ${x(phases.bleed + 2)} ${y(9)}
-    C ${x(phases.seed)} ${y(10)},
-      ${x(phases.bloom - 2)} ${y(14)},
-      ${x(phases.bloom)} ${y(16)}
-    C ${x(phases.bloom + 2)} ${y(14)},
-      ${x(phases.shift)} ${y(8)},
-      ${x(phases.reflect)} ${y(4)}
+    C ${x(phases.seed - 2)} ${y(4)},
+      ${x(phases.seed)} ${y(8)},
+      ${x(phases.seed + 2)} ${y(9)}
+    C ${x(phases.bloom - 3)} ${y(12)},
+      ${x(phases.bloom)} ${y(16)},
+      ${x(phases.bloom + 3)} ${y(14)}
+    C ${x(phases.moon)} ${y(10)},
+      ${x(phases.flow - 2)} ${y(6)},
+      ${x(phases.flow)} ${y(4)}
     L ${width} ${height}
     L 0 ${height}
     Z
@@ -117,28 +112,28 @@ function CycleTrendChart({
       <defs>
         {/* Neutral */}
         <linearGradient id="neutral" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#b39ddb" stopOpacity="0.45" />
+          <stop offset="0%" stopColor="#b39ddb" stopOpacity="0.4" />
           <stop offset="100%" stopColor="#b39ddb" stopOpacity="0.1" />
         </linearGradient>
 
-        {/* Bleed */}
-        <linearGradient id="bleed" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="red" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="red" stopOpacity="0.15" />
+        {/* SEED – red */}
+        <linearGradient id="seedRed" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#e53935" stopOpacity="0.75" />
+          <stop offset="100%" stopColor="#e53935" stopOpacity="0.15" />
         </linearGradient>
 
-        {/* Blossom */}
-        <linearGradient id="blossom" x1="0" y1="0" x2="0" y2="1">
+        {/* BLOOM – pink */}
+        <linearGradient id="bloomPink" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#f48fb1" stopOpacity="0.75" />
           <stop offset="100%" stopColor="#f48fb1" stopOpacity="0.15" />
         </linearGradient>
 
-        {/* Clip BLEED */}
-        <clipPath id="bleedClip">
+        {/* Clip SEED */}
+        <clipPath id="seedClip">
           <rect
-            x={x(phases.bleed - 3)}
+            x={x(phases.seed - 3)}
             y="0"
-            width={x(6) - x(1)}
+            width={x(phases.seed + 3) - x(phases.seed - 3)}
             height={height}
           />
         </clipPath>
@@ -148,46 +143,46 @@ function CycleTrendChart({
           <rect
             x={x(phases.bloom - 3)}
             y="0"
-            width={x(17) - x(11)}
+            width={x(phases.bloom + 3) - x(phases.bloom - 3)}
             height={height}
           />
         </clipPath>
       </defs>
 
-      {/* Neutral base curve */}
+      {/* Base curve */}
       <path d={areaPath} fill="url(#neutral)" />
 
-      {/* Bleed rise (aligned over BLEED label) */}
+      {/* SEED – red rise */}
       <path
         d={areaPath}
-        fill="url(#bleed)"
-        clipPath="url(#bleedClip)"
+        fill="url(#seedRed)"
+        clipPath="url(#seedClip)"
       />
 
-      {/* Blossom rise (aligned over BLOOM label) */}
+      {/* BLOOM – pink rise */}
       <path
         d={areaPath}
-        fill="url(#blossom)"
+        fill="url(#bloomPink)"
         clipPath="url(#bloomClip)"
       />
 
-      {/* Y-axis (days) */}
+      {/* Y-axis */}
       <g fontSize="10" fill="#999">
         <text x="0" y="12">{cycleLength}</text>
         <text x="0" y={height - 4}>1</text>
       </g>
 
-      {/* X-axis labels */}
+      {/* X-axis */}
       <g fontSize="10" fill="#999">
-        <text x={x(phases.bleed)} y="145" textAnchor="middle">BLEED</text>
         <text x={x(phases.seed)} y="145" textAnchor="middle">SEED</text>
         <text x={x(phases.bloom)} y="145" textAnchor="middle">BLOOM</text>
-        <text x={x(phases.shift)} y="145" textAnchor="middle">SHIFT</text>
-        <text x={x(phases.reflect)} y="145" textAnchor="middle">REFLECT</text>
+        <text x={x(phases.moon)} y="145" textAnchor="middle">MOON</text>
+        <text x={x(phases.flow)} y="145" textAnchor="middle">FLOW</text>
       </g>
     </svg>
   );
 }
+
 
 
 
