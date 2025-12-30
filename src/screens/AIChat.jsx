@@ -92,11 +92,11 @@ export default function AI() {
       {/* ================= HEADER ================= */}
       <div style={{ ...card, textAlign: "center", backgroundColor: "rgb(225, 184, 190)", color: "#fff" }}>
         <h3 style={{ color: "white", marginBottom: 8 }}>
-          🧬 Your Digital Twin
+           Your Digital Twin
         </h3>
 
         {/* Avatar */}
-        <div style={avatar}>🧬</div>
+        <div style={avatar}><img style={{height:"80px"}} src="well_logo.jpeg"/></div>
 
         {/* Status */}
         <span style={statusPill}>✓ Synced & Active</span>
@@ -335,7 +335,7 @@ const avatar = {
     width: 72,
     height: 72,
     borderRadius: "50%",
-    background: "linear-gradient(135deg,#E91E63,#C2185B)",
+    // background: "linear-gradient(135deg,#E91E63,#C2185B)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

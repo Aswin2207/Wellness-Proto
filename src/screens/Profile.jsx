@@ -8,7 +8,7 @@ export default function Profile() {
     <PageWrapper active="Profile">
       {/* ================= HEADER ================= */}
       <div style={headerCard}>
-        <div style={logo}>🌙</div>
+        <div style={logo}><img style={{height:"60px"}} src="well_logo.jpeg"/></div>
         <h2 style={{ marginTop: 8 }}>Her Solace</h2>
         <p style={{ fontSize: 12, opacity: 0.85 }}>
           Hormonal Intelligence for Every Stage

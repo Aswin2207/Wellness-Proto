@@ -50,7 +50,7 @@ export default function StartJourney() {
 
             <div style={moonWrap}>
               <div style={moonRing} />
-              <div style={moon}>🌙</div>
+              <div style={moon}><img style={{height:"80px"}} src="well_logo.jpeg"/></div>
             </div>
 
             <h1 style={landingTitle}>Her Solace</h1>
@@ -267,15 +267,15 @@ const moonRing = {
   position: "absolute",
   inset: 0,
   borderRadius: "50%",
-  border: "2px solid #deb7ba",
+  // border: "2px solid #deb7ba",
   animation: "spin 12s linear infinite"
 };
 
 const moon = {
   width: 64,
   height: 64,
-  borderRadius: "50%",
-  background: "#deb7ba",
+  // borderRadius: "50%",
+  // background: "#deb7ba",
   color: "#fff",
   display: "flex",
   alignItems: "center",
