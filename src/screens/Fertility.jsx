@@ -78,136 +78,134 @@ const valuePill = {
 };
 
 
-function CycleTrendChart() {
+function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
   const width = 320;
   const height = 160;
-  const baseY = 110;
 
-  const phases = {
-    seed: 70,
-    bloom: 150,
-    moon: 230,
-    flow: 300
-  };
+  const bandTop = 72;
+  const bandHeight = 40;
+  const indicatorY = bandTop - 14;
 
-  const seedPeak = { x: phases.seed, y: baseY - 42 };
-  const bloomPeak = { x: phases.bloom, y: baseY - 55 };
-  const moonPeak = { x: phases.moon, y: baseY - 28 };
-  const flowPeak = { x: phases.flow, y: baseY - 18 };
+  const phases = [
+    {
+      label: "SEED",
+      x: 0,
+      w: 80,
+      color: "#E8F5E9",
+      marker: "#81C784",
+      day: currentDay,
+      isToday: true
+    },
+    {
+      label: "BLOOM",
+      x: 80,
+      w: 90,
+      color: "#C8E6C9",
+      marker: "#B39DDB",
+      day: ovulationDay,
+      isOvulation: true
+    },
+    { label: "MOON", x: 170, w: 75, color: "#FCE4EC" },
+    { label: "FLOW", x: 245, w: 75, color: "#F8BBD0" }
+  ];
 
-  const seedSpan = 140;
-  const bloomSpan = 160;
-  const moonSpan = 120;
-  const flowSpan = 100;
+  const seed = phases[0];
+  const bloom = phases[1];
+
+  const seedX = seed.x + seed.w / 2;
+  const bloomX = bloom.x + bloom.w / 2;
 
   return (
     <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
-      <defs>
-        <linearGradient id="seedWave" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#f2a6a0" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#f2a6a0" stopOpacity="0.15" />
-        </linearGradient>
+      {/* ================= CONTINUOUS AREA ================= */}
+      {phases.map(p => (
+        <rect
+          key={p.label}
+          x={p.x}
+          y={bandTop}
+          width={p.w}
+          height={bandHeight}
+          fill={p.color}
+        />
+      ))}
 
-        <linearGradient id="bloomWave" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#f6c1d6" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#f6c1d6" stopOpacity="0.15" />
-        </linearGradient>
-
-        <linearGradient id="softWave" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#dcd6e8" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#dcd6e8" stopOpacity="0.1" />
-        </linearGradient>
-      </defs>
-
-      {/* ================= SEED ================= */}
-      <path
-        d={`
-          M ${seedPeak.x - seedSpan / 2} ${baseY}
-          C ${seedPeak.x - seedSpan / 4} ${baseY},
-            ${seedPeak.x - seedSpan / 4} ${seedPeak.y},
-            ${seedPeak.x} ${seedPeak.y}
-          C ${seedPeak.x + seedSpan / 4} ${seedPeak.y},
-            ${seedPeak.x + seedSpan / 4} ${baseY},
-            ${seedPeak.x + seedSpan / 2} ${baseY}
-          Z
-        `}
-        fill="url(#seedWave)"
+      {/* ================= TODAY (SEED) ================= */}
+      <line
+        x1={seedX}
+        x2={seedX}
+        y1={bandTop}
+        y2={bandTop + bandHeight}
+        stroke={seed.marker}
+        strokeDasharray="4"
       />
-
-      {/* ================= BLOOM ================= */}
-      <path
-        d={`
-          M ${bloomPeak.x - bloomSpan / 2} ${baseY}
-          C ${bloomPeak.x - bloomSpan / 4} ${baseY},
-            ${bloomPeak.x - bloomSpan / 4} ${bloomPeak.y},
-            ${bloomPeak.x} ${bloomPeak.y}
-          C ${bloomPeak.x + bloomSpan / 4} ${bloomPeak.y},
-            ${bloomPeak.x + bloomSpan / 4} ${baseY},
-            ${bloomPeak.x + bloomSpan / 2} ${baseY}
-          Z
-        `}
-        fill="url(#bloomWave)"
-      />
-
-      {/* ================= MOON (SUBTLE) ================= */}
-      <path
-        d={`
-          M ${moonPeak.x - moonSpan / 2} ${baseY}
-          C ${moonPeak.x - moonSpan / 4} ${baseY},
-            ${moonPeak.x - moonSpan / 4} ${moonPeak.y},
-            ${moonPeak.x} ${moonPeak.y}
-          C ${moonPeak.x + moonSpan / 4} ${moonPeak.y},
-            ${moonPeak.x + moonSpan / 4} ${baseY},
-            ${moonPeak.x + moonSpan / 2} ${baseY}
-          Z
-        `}
-        fill="url(#softWave)"
-      />
-
-      {/* ================= FLOW (VERY SUBTLE) ================= */}
-      <path
-        d={`
-          M ${flowPeak.x - flowSpan / 2} ${baseY}
-          C ${flowPeak.x - flowSpan / 4} ${baseY},
-            ${flowPeak.x - flowSpan / 4} ${flowPeak.y},
-            ${flowPeak.x} ${flowPeak.y}
-          C ${flowPeak.x + flowSpan / 4} ${flowPeak.y},
-            ${flowPeak.x + flowSpan / 4} ${baseY},
-            ${flowPeak.x + flowSpan / 2} ${baseY}
-          Z
-        `}
-        fill="url(#softWave)"
-        opacity="0.8"
-      />
-
-      {/* ================= CURRENT DAY ================= */}
-      <circle cx={seedPeak.x} cy={seedPeak.y} r="11" fill="#e86a63" />
-      <text x={seedPeak.x} y={seedPeak.y + 4} textAnchor="middle" fontSize="11" fontWeight="700" fill="#fff">
-        8
+      <circle cx={seedX} cy={indicatorY} r="10" fill={seed.marker} />
+      <text
+        x={seedX}
+        y={indicatorY + 4}
+        textAnchor="middle"
+        fontSize="11"
+        fontWeight="700"
+        fill="#fff"
+      >
+        {seed.day}
       </text>
-      <text x={seedPeak.x} y={seedPeak.y + 26} textAnchor="middle" fontSize="9" fill="#e86a63">
-        CURRENT DAY
+      <text
+        x={seedX}
+        y={indicatorY - 12}
+        textAnchor="middle"
+        fontSize="9"
+        fill={seed.marker}
+      >
+        Today
       </text>
 
-      {/* ================= OVULATION ================= */}
-      <circle cx={bloomPeak.x} cy={bloomPeak.y} r="11" fill="#e89abf" />
-      <text x={bloomPeak.x} y={bloomPeak.y + 4} textAnchor="middle" fontSize="11" fontWeight="700" fill="#fff">
-        14
+      {/* ================= OVULATION (BLOOM) ================= */}
+      <line
+        x1={bloomX}
+        x2={bloomX}
+        y1={bandTop}
+        y2={bandTop + bandHeight}
+        stroke={bloom.marker}
+        strokeDasharray="4"
+      />
+      <circle cx={bloomX} cy={indicatorY} r="10" fill={bloom.marker} />
+      <text
+        x={bloomX}
+        y={indicatorY + 4}
+        textAnchor="middle"
+        fontSize="11"
+        fontWeight="700"
+        fill="#fff"
+      >
+        {bloom.day}
       </text>
-      <text x={bloomPeak.x} y={bloomPeak.y + 26} textAnchor="middle" fontSize="9" fill="#e89abf">
-        OVULATION
+      <text
+        x={bloomX}
+        y={indicatorY - 12}
+        textAnchor="middle"
+        fontSize="9"
+        fill={bloom.marker}
+      >
+        Ovulation
       </text>
 
       {/* ================= X AXIS ================= */}
-      <g fontSize="10" fill="#b0b0b0" fontWeight="600">
-        <text x={phases.seed} y="150" textAnchor="middle">SEED</text>
-        <text x={phases.bloom} y="150" textAnchor="middle">BLOOM</text>
-        <text x={phases.moon} y="150" textAnchor="middle">MOON</text>
-        <text x={phases.flow} y="150" textAnchor="middle">FLOW</text>
+      <g fontSize="10" fill="#B0B0B0" fontWeight="600">
+        {phases.map(p => (
+          <text
+            key={p.label}
+            x={p.x + p.w / 2}
+            y="145"
+            textAnchor="middle"
+          >
+            {p.label}
+          </text>
+        ))}
       </g>
     </svg>
   );
 }
+
 
 
 
