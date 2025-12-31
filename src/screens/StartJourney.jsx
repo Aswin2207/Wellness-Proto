@@ -55,7 +55,7 @@ export default function StartJourney() {
 
             <h1 style={landingTitle}>Her Solace</h1>
             <Sub>
-              A gentle space to understand your cycle & wellbeing
+               Decode Hormones - Discover You
             </Sub>
 
 
