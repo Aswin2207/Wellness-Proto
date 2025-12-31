@@ -97,6 +97,8 @@ export default function AI() {
 
         {/* Avatar */}
         <div style={avatar}><img style={{height:"80px"}} src="well_logo.jpeg"/></div>
+         <h2 style={{ marginTop: 8 }}>Her Solace</h2>
+        <p>Decode Hormones - Discover You</p>
 
         {/* Status */}
         <span style={statusPill}>✓ Synced & Active</span>
