@@ -10,6 +10,7 @@ export default function Profile() {
       <div style={headerCard}>
         <div style={logo}><img style={{height:"60px"}} src="well_logo.jpeg"/></div>
         <h2 style={{ marginTop: 8 }}>Her Solace</h2>
+        <p>Decode Hormones - Discover You</p>
         <p style={{ fontSize: 12, opacity: 0.85 }}>
           Hormonal Intelligence for Every Stage
         </p>
