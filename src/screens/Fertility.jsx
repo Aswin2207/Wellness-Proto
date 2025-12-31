@@ -77,111 +77,138 @@ const valuePill = {
     textAlign: "right"
 };
 
-function CycleTrendChart({ cycleLength = 28 }) {
-  const width = 300;
-  const height = 120;
+
+function CycleTrendChart() {
+  const width = 320;
+  const height = 160;
+  const baseY = 110;
 
   const phases = {
-    seed: 6,
-    bloom: 14,
-    moon: 20,
-    flow: 26
+    seed: 70,
+    bloom: 150,
+    moon: 230,
+    flow: 300
   };
 
-  const x = d => (d / cycleLength) * width;
-  const y = d => height - (d / cycleLength) * height;
+  const seedPeak = { x: phases.seed, y: baseY - 42 };
+  const bloomPeak = { x: phases.bloom, y: baseY - 55 };
+  const moonPeak = { x: phases.moon, y: baseY - 28 };
+  const flowPeak = { x: phases.flow, y: baseY - 18 };
 
-  const areaPath = `
-    M ${x(1)} ${y(2)}
-    C ${x(phases.seed - 2)} ${y(4)},
-      ${x(phases.seed)} ${y(8)},
-      ${x(phases.seed + 2)} ${y(9)}
-    C ${x(phases.bloom - 3)} ${y(12)},
-      ${x(phases.bloom)} ${y(16)},
-      ${x(phases.bloom + 3)} ${y(14)}
-    C ${x(phases.moon)} ${y(10)},
-      ${x(phases.flow - 2)} ${y(6)},
-      ${x(phases.flow)} ${y(4)}
-    L ${width} ${height}
-    L 0 ${height}
-    Z
-  `;
+  const seedSpan = 140;
+  const bloomSpan = 160;
+  const moonSpan = 120;
+  const flowSpan = 100;
 
   return (
-    <svg width="100%" height="170" viewBox={`0 0 ${width} 150`}>
+    <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
       <defs>
-        {/* Neutral */}
-        <linearGradient id="neutral" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#b39ddb" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#b39ddb" stopOpacity="0.1" />
+        <linearGradient id="seedWave" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f2a6a0" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#f2a6a0" stopOpacity="0.15" />
         </linearGradient>
 
-        {/* SEED – red */}
-        <linearGradient id="seedRed" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#e53935" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#e53935" stopOpacity="0.15" />
+        <linearGradient id="bloomWave" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f6c1d6" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#f6c1d6" stopOpacity="0.15" />
         </linearGradient>
 
-        {/* BLOOM – pink */}
-        <linearGradient id="bloomPink" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#f48fb1" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#f48fb1" stopOpacity="0.15" />
+        <linearGradient id="softWave" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#dcd6e8" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#dcd6e8" stopOpacity="0.1" />
         </linearGradient>
-
-        {/* Clip SEED */}
-        <clipPath id="seedClip">
-          <rect
-            x={x(phases.seed - 3)}
-            y="0"
-            width={x(phases.seed + 3) - x(phases.seed - 3)}
-            height={height}
-          />
-        </clipPath>
-
-        {/* Clip BLOOM */}
-        <clipPath id="bloomClip">
-          <rect
-            x={x(phases.bloom - 3)}
-            y="0"
-            width={x(phases.bloom + 3) - x(phases.bloom - 3)}
-            height={height}
-          />
-        </clipPath>
       </defs>
 
-      {/* Base curve */}
-      <path d={areaPath} fill="url(#neutral)" />
-
-      {/* SEED – red rise */}
+      {/* ================= SEED ================= */}
       <path
-        d={areaPath}
-        fill="url(#seedRed)"
-        clipPath="url(#seedClip)"
+        d={`
+          M ${seedPeak.x - seedSpan / 2} ${baseY}
+          C ${seedPeak.x - seedSpan / 4} ${baseY},
+            ${seedPeak.x - seedSpan / 4} ${seedPeak.y},
+            ${seedPeak.x} ${seedPeak.y}
+          C ${seedPeak.x + seedSpan / 4} ${seedPeak.y},
+            ${seedPeak.x + seedSpan / 4} ${baseY},
+            ${seedPeak.x + seedSpan / 2} ${baseY}
+          Z
+        `}
+        fill="url(#seedWave)"
       />
 
-      {/* BLOOM – pink rise */}
+      {/* ================= BLOOM ================= */}
       <path
-        d={areaPath}
-        fill="url(#bloomPink)"
-        clipPath="url(#bloomClip)"
+        d={`
+          M ${bloomPeak.x - bloomSpan / 2} ${baseY}
+          C ${bloomPeak.x - bloomSpan / 4} ${baseY},
+            ${bloomPeak.x - bloomSpan / 4} ${bloomPeak.y},
+            ${bloomPeak.x} ${bloomPeak.y}
+          C ${bloomPeak.x + bloomSpan / 4} ${bloomPeak.y},
+            ${bloomPeak.x + bloomSpan / 4} ${baseY},
+            ${bloomPeak.x + bloomSpan / 2} ${baseY}
+          Z
+        `}
+        fill="url(#bloomWave)"
       />
 
-      {/* Y-axis */}
-      <g fontSize="10" fill="#999">
-        <text x="0" y="12">{cycleLength}</text>
-        <text x="0" y={height - 4}>1</text>
-      </g>
+      {/* ================= MOON (SUBTLE) ================= */}
+      <path
+        d={`
+          M ${moonPeak.x - moonSpan / 2} ${baseY}
+          C ${moonPeak.x - moonSpan / 4} ${baseY},
+            ${moonPeak.x - moonSpan / 4} ${moonPeak.y},
+            ${moonPeak.x} ${moonPeak.y}
+          C ${moonPeak.x + moonSpan / 4} ${moonPeak.y},
+            ${moonPeak.x + moonSpan / 4} ${baseY},
+            ${moonPeak.x + moonSpan / 2} ${baseY}
+          Z
+        `}
+        fill="url(#softWave)"
+      />
 
-      {/* X-axis */}
-      <g fontSize="10" fill="#999">
-        <text x={x(phases.seed)} y="145" textAnchor="middle">SEED</text>
-        <text x={x(phases.bloom)} y="145" textAnchor="middle">BLOOM</text>
-        <text x={x(phases.moon)} y="145" textAnchor="middle">MOON</text>
-        <text x={x(phases.flow)} y="145" textAnchor="middle">FLOW</text>
+      {/* ================= FLOW (VERY SUBTLE) ================= */}
+      <path
+        d={`
+          M ${flowPeak.x - flowSpan / 2} ${baseY}
+          C ${flowPeak.x - flowSpan / 4} ${baseY},
+            ${flowPeak.x - flowSpan / 4} ${flowPeak.y},
+            ${flowPeak.x} ${flowPeak.y}
+          C ${flowPeak.x + flowSpan / 4} ${flowPeak.y},
+            ${flowPeak.x + flowSpan / 4} ${baseY},
+            ${flowPeak.x + flowSpan / 2} ${baseY}
+          Z
+        `}
+        fill="url(#softWave)"
+        opacity="0.8"
+      />
+
+      {/* ================= CURRENT DAY ================= */}
+      <circle cx={seedPeak.x} cy={seedPeak.y} r="11" fill="#e86a63" />
+      <text x={seedPeak.x} y={seedPeak.y + 4} textAnchor="middle" fontSize="11" fontWeight="700" fill="#fff">
+        8
+      </text>
+      <text x={seedPeak.x} y={seedPeak.y + 26} textAnchor="middle" fontSize="9" fill="#e86a63">
+        CURRENT DAY
+      </text>
+
+      {/* ================= OVULATION ================= */}
+      <circle cx={bloomPeak.x} cy={bloomPeak.y} r="11" fill="#e89abf" />
+      <text x={bloomPeak.x} y={bloomPeak.y + 4} textAnchor="middle" fontSize="11" fontWeight="700" fill="#fff">
+        14
+      </text>
+      <text x={bloomPeak.x} y={bloomPeak.y + 26} textAnchor="middle" fontSize="9" fill="#e89abf">
+        OVULATION
+      </text>
+
+      {/* ================= X AXIS ================= */}
+      <g fontSize="10" fill="#b0b0b0" fontWeight="600">
+        <text x={phases.seed} y="150" textAnchor="middle">SEED</text>
+        <text x={phases.bloom} y="150" textAnchor="middle">BLOOM</text>
+        <text x={phases.moon} y="150" textAnchor="middle">MOON</text>
+        <text x={phases.flow} y="150" textAnchor="middle">FLOW</text>
       </g>
     </svg>
   );
 }
+
 
 
 
