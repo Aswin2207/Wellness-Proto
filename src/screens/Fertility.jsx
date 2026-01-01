@@ -88,7 +88,7 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
 
   const phases = [
     {
-      label: "SEED",
+      label: "FLOW",
       x: 0,
       w: 80,
       color: "#E8F5E9",
@@ -97,7 +97,7 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
       isToday: true
     },
     {
-      label: "BLOOM",
+      label: "SEED",
       x: 80,
       w: 90,
       color: "#C8E6C9",
@@ -105,8 +105,8 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
       day: ovulationDay,
       isOvulation: true
     },
-    { label: "MOON", x: 170, w: 75, color: "#FCE4EC" },
-    { label: "FLOW", x: 245, w: 75, color: "#F8BBD0" }
+    { label: "BLOOM", x: 170, w: 75, color: "#FCE4EC" },
+    { label: "MOON", x: 245, w: 75, color: "#F8BBD0" }
   ];
 
   const seed = phases[0];

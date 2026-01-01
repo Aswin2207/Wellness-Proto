@@ -32,6 +32,7 @@ export default function Insights() {
 
   const [hydration, setHydration] = useState(5);
   const [score, setScore] = useState(0);
+   const [currentDate] = useState(new Date());
 
   /* ================= SCORE CALC ================= */
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function Insights() {
           <h3>Today’s Plan</h3>
           <p style={muted}>Cycle Phase: {cyclePhase}</p>
         </div>
-        <span style={date}>Aug 14, 2024</span>
+        <span style={date}>{formatDate(currentDate)}</span>
       </div>
 
       {/* ================= SCORE ================= */}
@@ -265,3 +266,15 @@ const cta = {
   fontWeight: 700,
   border: "none"
 };
+
+const formatDate = (date) => {
+  // Options for the desired format
+  const options = {
+    year: 'numeric',
+    month: 'short', // 'short' gives "Aug"
+    day: 'numeric',
+  };
+
+  // The 'en-US' locale typically uses the "Month Day, Year" format (e.g., "Aug 14, 2024")
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+}
