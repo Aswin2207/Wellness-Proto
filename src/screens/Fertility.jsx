@@ -86,38 +86,64 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
   const bandHeight = 40;
   const indicatorY = bandTop - 14;
 
+  // Phase layout + day ranges
   const phases = [
     {
-      label: "FLOW",
+      label: "SEED",
       x: 0,
       w: 80,
       color: "#E8F5E9",
       marker: "#81C784",
-      day: currentDay,
-      isToday: true
+      startDay: 6,
+      endDay: 13
     },
     {
-      label: "SEED",
+      label: "BLOOM",
       x: 80,
       w: 90,
       color: "#C8E6C9",
       marker: "#B39DDB",
-      day: ovulationDay,
-      isOvulation: true
+      startDay: 14,
+      endDay: 16
     },
-    { label: "BLOOM", x: 170, w: 75, color: "#FCE4EC" },
-    { label: "MOON", x: 245, w: 75, color: "#F8BBD0" }
+    {
+      label: "MOON",
+      x: 170,
+      w: 75,
+      color: "#FCE4EC",
+      startDay: 17,
+      endDay: 23
+    },
+    {
+      label: "FLOW",
+      x: 245,
+      w: 75,
+      color: "#F8BBD0",
+      startDay: 24,
+      endDay: 28
+    }
   ];
 
-  const seed = phases[0];
-  const bloom = phases[1];
+  // Utility: map day → x within its phase
+  function getXForDay(day) {
+    const phase = phases.find(
+      p => day >= p.startDay && day <= p.endDay
+    );
+    if (!phase) return 0;
 
-  const seedX = seed.x + seed.w / 2;
-  const bloomX = bloom.x + bloom.w / 2;
+    const progress =
+      (day - phase.startDay) /
+      (phase.endDay - phase.startDay || 1);
+
+    return phase.x + progress * phase.w;
+  }
+
+  const todayX = getXForDay(currentDay);
+  const ovulationX = getXForDay(ovulationDay);
 
   return (
     <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
-      {/* ================= CONTINUOUS AREA ================= */}
+      {/* ================= CONTINUOUS BAND ================= */}
       {phases.map(p => (
         <rect
           key={p.label}
@@ -129,62 +155,62 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
         />
       ))}
 
-      {/* ================= TODAY (SEED) ================= */}
+      {/* ================= TODAY (DAY 8 — IN SEED) ================= */}
       <line
-        x1={seedX}
-        x2={seedX}
+        x1={todayX}
+        x2={todayX}
         y1={bandTop}
         y2={bandTop + bandHeight}
-        stroke={seed.marker}
+        stroke="#81C784"
         strokeDasharray="4"
       />
-      <circle cx={seedX} cy={indicatorY} r="10" fill={seed.marker} />
+      <circle cx={todayX} cy={indicatorY} r="10" fill="#81C784" />
       <text
-        x={seedX}
+        x={todayX}
         y={indicatorY + 4}
         textAnchor="middle"
         fontSize="11"
         fontWeight="700"
         fill="#fff"
       >
-        {seed.day}
+        8
       </text>
       <text
-        x={seedX}
+        x={todayX}
         y={indicatorY - 12}
         textAnchor="middle"
         fontSize="9"
-        fill={seed.marker}
+        fill="#81C784"
       >
         Today
       </text>
 
-      {/* ================= OVULATION (BLOOM) ================= */}
+      {/* ================= OVULATION (DAY 14 — START OF BLOOM) ================= */}
       <line
-        x1={bloomX}
-        x2={bloomX}
+        x1={ovulationX}
+        x2={ovulationX}
         y1={bandTop}
         y2={bandTop + bandHeight}
-        stroke={bloom.marker}
+        stroke="#B39DDB"
         strokeDasharray="4"
       />
-      <circle cx={bloomX} cy={indicatorY} r="10" fill={bloom.marker} />
+      <circle cx={ovulationX} cy={indicatorY} r="10" fill="#B39DDB" />
       <text
-        x={bloomX}
-        y={indicatorY + 4}
+        x={ovulationX}
+        y={indicatorY + 5}
         textAnchor="middle"
         fontSize="11"
         fontWeight="700"
         fill="#fff"
       >
-        {bloom.day}
+        14
       </text>
       <text
-        x={bloomX}
+        x={ovulationX}
         y={indicatorY - 12}
         textAnchor="middle"
         fontSize="9"
-        fill={bloom.marker}
+        fill="#B39DDB"
       >
         Ovulation
       </text>
@@ -205,6 +231,7 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
     </svg>
   );
 }
+
 
 
 
