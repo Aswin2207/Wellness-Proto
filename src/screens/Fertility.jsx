@@ -78,7 +78,7 @@ const valuePill = {
 };
 
 
-function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
+function CycleTrendChart() {
   const width = 320;
   const height = 160;
 
@@ -86,60 +86,20 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
   const bandHeight = 40;
   const indicatorY = bandTop - 14;
 
-  // Phase layout + day ranges
+  // Phase layout (order fixed)
   const phases = [
-    {
-      label: "SEED",
-      x: 0,
-      w: 80,
-      color: "#E8F5E9",
-      marker: "#81C784",
-      startDay: 6,
-      endDay: 13
-    },
-    {
-      label: "BLOOM",
-      x: 80,
-      w: 90,
-      color: "#C8E6C9",
-      marker: "#B39DDB",
-      startDay: 14,
-      endDay: 16
-    },
-    {
-      label: "MOON",
-      x: 170,
-      w: 75,
-      color: "#FCE4EC",
-      startDay: 17,
-      endDay: 23
-    },
-    {
-      label: "FLOW",
-      x: 245,
-      w: 75,
-      color: "#F8BBD0",
-      startDay: 24,
-      endDay: 28
-    }
+    { label: "FLOW",  x: 0,   w: 80,  color: "#E8F5E9" },
+    { label: "SEED",  x: 80,  w: 80,  color: "#C8E6C9" },
+    { label: "BLOOM", x: 160, w: 80,  color: "#FCE4EC" },
+    { label: "MOON",  x: 240, w: 80,  color: "#F8BBD0" }
   ];
 
-  // Utility: map day → x within its phase
-  function getXForDay(day) {
-    const phase = phases.find(
-      p => day >= p.startDay && day <= p.endDay
-    );
-    if (!phase) return 0;
+  // Marker positions (explicit, per requirement)
+  const seed = phases.find(p => p.label === "SEED");
+  const bloom = phases.find(p => p.label === "BLOOM");
 
-    const progress =
-      (day - phase.startDay) /
-      (phase.endDay - phase.startDay || 1);
-
-    return phase.x + progress * phase.w;
-  }
-
-  const todayX = getXForDay(currentDay);
-  const ovulationX = getXForDay(ovulationDay);
+  const day8X = seed.x + seed.w / 2;   // middle of SEED
+  const day14X = bloom.x;              // start of BLOOM
 
   return (
     <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
@@ -155,18 +115,18 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
         />
       ))}
 
-      {/* ================= TODAY (DAY 8 — IN SEED) ================= */}
+      {/* ================= DAY 8 — TODAY (SEED) ================= */}
       <line
-        x1={todayX}
-        x2={todayX}
+        x1={day8X}
+        x2={day8X}
         y1={bandTop}
         y2={bandTop + bandHeight}
         stroke="#81C784"
         strokeDasharray="4"
       />
-      <circle cx={todayX} cy={indicatorY} r="10" fill="#81C784" />
+      <circle cx={day8X} cy={indicatorY} r="10" fill="#81C784" />
       <text
-        x={todayX}
+        x={day8X}
         y={indicatorY + 4}
         textAnchor="middle"
         fontSize="11"
@@ -176,7 +136,7 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
         8
       </text>
       <text
-        x={todayX}
+        x={day8X}
         y={indicatorY - 12}
         textAnchor="middle"
         fontSize="9"
@@ -185,19 +145,19 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
         Today
       </text>
 
-      {/* ================= OVULATION (DAY 14 — START OF BLOOM) ================= */}
+      {/* ================= DAY 14 — OVULATION (START OF BLOOM) ================= */}
       <line
-        x1={ovulationX}
-        x2={ovulationX}
+        x1={day14X}
+        x2={day14X}
         y1={bandTop}
         y2={bandTop + bandHeight}
         stroke="#B39DDB"
         strokeDasharray="4"
       />
-      <circle cx={ovulationX} cy={indicatorY} r="10" fill="#B39DDB" />
+      <circle cx={day14X} cy={indicatorY} r="10" fill="#B39DDB" />
       <text
-        x={ovulationX}
-        y={indicatorY + 5}
+        x={day14X}
+        y={indicatorY + 4}
         textAnchor="middle"
         fontSize="11"
         fontWeight="700"
@@ -206,7 +166,7 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
         14
       </text>
       <text
-        x={ovulationX}
+        x={day14X}
         y={indicatorY - 12}
         textAnchor="middle"
         fontSize="9"
@@ -215,7 +175,7 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
         Ovulation
       </text>
 
-      {/* ================= X AXIS ================= */}
+      {/* ================= X AXIS LABELS ================= */}
       <g fontSize="10" fill="#B0B0B0" fontWeight="600">
         {phases.map(p => (
           <text
@@ -231,6 +191,7 @@ function CycleTrendChart({ currentDay = 8, ovulationDay = 14 }) {
     </svg>
   );
 }
+
 
 
 

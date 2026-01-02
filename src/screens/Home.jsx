@@ -52,22 +52,22 @@ export default function Home() {
       <div style={heroCard}>
 
         {/* Log Button */}
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-        <h2 style={heroTitle}>Follicular Phase</h2>
-        <button style={logButton} onClick={() => setOpen(true)}>
-          <IoCalendarOutline size={22} />
-          <span>Log</span>
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h2 style={heroTitle}>Follicular Phase</h2>
+          <button style={logButton} onClick={() => setOpen(true)}>
+            <IoCalendarOutline size={22} />
+            <span>Log</span>
+          </button>
         </div>
         <p style={heroSub}>
           Day {cycleDay} of {cycleLength} • Energy rising • Focus & strength peak
         </p>
 
         <div style={phaseRow}>
-          <Phase label="Seed" />
-          <Phase label="Bloom" active />
-          <Phase label="Moon" />
           <Phase label="Flow" />
+          <Phase label="Seed" active/>
+          <Phase label="Bloom"  />
+          <Phase label="Moon" />
         </div>
       </div>
 
@@ -407,7 +407,7 @@ const logButton = {
   borderRadius: "20px",
   padding: "6px 12px",
   cursor: "pointer",
-  color:'white'
+  color: 'white'
 };
 
 const modalOverlay = {
